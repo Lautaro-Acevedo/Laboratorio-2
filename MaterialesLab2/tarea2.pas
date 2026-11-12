@@ -18,9 +18,23 @@ begin
 end;
 
 procedure buscarPalabraEnBanco(palabra: TPalabra; banco: TBancoPalabras; var encontre : boolean; var idBanco : integer);
-
+var
+    i , b : integer;
 begin
-
+    encontre := False;
+    b := 1;
+    while (banco.cantidad >= b ) and not encontre do
+    begin
+        if palabra.largo = banco.arreglo[b].palabra.largo then
+        begin
+            encontre := True;
+            idBanco := b;
+            for i := 1 to palabra.largo do
+                if banco.arreglo[b].palabra.arreglo[i] <> palabra.arreglo[i] then
+                encontre := False;
+        end;
+        b := b + 1;
+    end;
 end;
 
 
