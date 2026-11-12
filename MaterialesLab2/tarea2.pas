@@ -68,8 +68,20 @@ end;
 
 
 procedure buscarTramoPorIdBanco(idBanco: integer; tram: TTramos; var encontre: boolean; var idTramo: integer);
+var
+    i  : integer;
 begin
-
+    encontre := False;
+    i := 1;
+    while (tram.cantidad >= i ) and not encontre do
+    begin
+        if (tram.arreglo[i].ocupado = True) and (tram.arreglo[i].idBanco = idBanco) then
+        begin
+             encontre := True;
+             idTramo := i;
+        end;
+        i := i + 1;
+    end;
 end;
 
 procedure eliminarPalabra(idBanco: integer; var partida : TPartida);
