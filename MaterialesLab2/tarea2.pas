@@ -1,7 +1,20 @@
 function sonIgualesPalabras(palabra1, palabra2: TPalabra): boolean;
+var
+    i : integer;
+    iguales : boolean;
 begin
-    { Reemplace este comentario y la instrucción por el código correspondiente a sonIgualesPalabras }
-    sonIgualesPalabras := false;
+    if palabra1.largo = palabra2.largo then
+    begin
+        iguales := True;
+        for i := 1 to palabra1.largo do
+            if palabra1.arreglo[i] <> palabra2.arreglo[i] then
+            iguales := False;
+        sonIgualesPalabras := iguales;
+    end 
+    else
+    begin
+        sonIgualesPalabras := False
+    end;
 end;
 
 procedure buscarPalabraEnBanco(palabra: TPalabra; banco: TBancoPalabras; var encontre : boolean; var idBanco : integer);
