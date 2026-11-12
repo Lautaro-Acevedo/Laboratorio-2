@@ -39,9 +39,31 @@ end;
 
 
 procedure insertarPalabra(pos: TPosicion; ori: TOrientacion; palabra: TPalabra; var partida : TPartida);
-
+var
+    seEncontro , encontreBanco : boolean;
+    miIdTramo , idBanco , i : integer;
 begin
-
+    buscarTramoPorPosicion(pos, ori, partida.tramos , seEncontro, miIdTramo);
+    buscarPalabraEnBanco(palabra, partida.banco, encontreBanco, idBanco);
+    if seEncontro then
+    begin
+        partida.tramos.arreglo[miIdTramo].ocupado := True;
+        partida.tramos.arreglo[miIdTramo].idBanco := idBanco;
+        partida.banco.arreglo[idBanco].insertada := True;
+        for i := 1 to palabra.largo do
+            if ori = horizontal  then
+            begin
+                partida.tablero[pos.fila, pos.columna + i - 1].editable := True;
+                partida.tablero[pos.fila, pos.columna + i - 1].escrita := True;
+                partida.tablero[pos.fila, pos.columna + i - 1].letra := palabra.arreglo[i];
+            end
+            else
+            begin
+                partida.tablero[pos.fila + i - 1, pos.columna].editable := True;
+                partida.tablero[pos.fila + i - 1, pos.columna].escrita := True;
+                partida.tablero[pos.fila + i - 1, pos.columna].letra := palabra.arreglo[i];
+            end;
+    end;
 end;
 
 
