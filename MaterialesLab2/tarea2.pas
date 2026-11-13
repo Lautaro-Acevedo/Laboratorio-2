@@ -118,8 +118,16 @@ begin
 end;
 
 function calcularPuntaje(tablero : TTablero) : TNatural;
-
+var 
+x , y , contCasilla: integer;
 begin
-    { Reemplace este comentario y la instrucción siguiente por el código correspondiente a calcularPuntaje }
-    calcularPuntaje := 0;
+    contCasilla := 0;
+    for x := 0 to 9 do 
+        for y := 0 to 9 do
+            
+        if tablero[x , y].escrita = True then
+        begin
+            contCasilla := contCasilla + 1;
+        end;
+    calcularPuntaje := contCasilla;
 end;
