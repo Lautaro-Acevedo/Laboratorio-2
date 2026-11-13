@@ -85,8 +85,36 @@ begin
 end;
 
 procedure eliminarPalabra(idBanco: integer; var partida : TPartida);
+var
+    idT , i  : integer;
+    encontre : boolean;
 begin
-
+    
+    buscarTramoPorIdBanco(idBanco , partida.tramos , encontre , idT );
+    if encontre then
+    begin
+        for i := 1 to partida.banco.arreglo[idBanco].palabra.largo do
+            if partida.tramos.arreglo[idT].orientacion = horizontal  then
+            begin
+                partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].editable := True;
+                partida.tablero[partida.tramos.arreglo[idT].posicion.fila, partida.tramos.arreglo[idT].posicion.columna + i - 1].multiplicidad := partida.tablero[partida.tramos.arreglo[idT].posicion.fila, partida.tramos.arreglo[idT].posicion.columna + i - 1].multiplicidad - 1;
+                if partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].multiplicidad = 0 then
+                begin
+                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].escrita := False;    
+                end;
+            end
+            else
+            begin
+                partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].editable := True;
+                partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna ].multiplicidad := partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna ].multiplicidad -1;
+                if partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].multiplicidad = 0 then
+                begin
+                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].escrita := False;    
+                end;
+            end;
+        partida.tramos.arreglo[idT].ocupado := False;
+        partida.banco.arreglo[idBanco].insertada := False;
+    end;
 end;
 
 function calcularPuntaje(tablero : TTablero) : TNatural;
