@@ -56,12 +56,14 @@ begin
                 partida.tablero[pos.fila, pos.columna + i - 1].editable := True;
                 partida.tablero[pos.fila, pos.columna + i - 1].escrita := True;
                 partida.tablero[pos.fila, pos.columna + i - 1].letra := palabra.arreglo[i];
+                partida.tablero[pos.fila, pos.columna + i - 1].multiplicidad := partida.tablero[pos.fila, pos.columna + i - 1].multiplicidad + 1;
             end
             else
             begin
                 partida.tablero[pos.fila + i - 1, pos.columna].editable := True;
                 partida.tablero[pos.fila + i - 1, pos.columna].escrita := True;
                 partida.tablero[pos.fila + i - 1, pos.columna].letra := palabra.arreglo[i];
+                partida.tablero[pos.fila + i - 1, pos.columna].multiplicidad := partida.tablero[pos.fila + i - 1, pos.columna].multiplicidad + 1;
             end;
     end;
 end;
@@ -96,20 +98,28 @@ begin
         for i := 1 to partida.banco.arreglo[idBanco].palabra.largo do
             if partida.tramos.arreglo[idT].orientacion = horizontal  then
             begin
-                partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].editable := True;
-                partida.tablero[partida.tramos.arreglo[idT].posicion.fila, partida.tramos.arreglo[idT].posicion.columna + i - 1].multiplicidad := partida.tablero[partida.tramos.arreglo[idT].posicion.fila, partida.tramos.arreglo[idT].posicion.columna + i - 1].multiplicidad - 1;
-                if partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].multiplicidad = 0 then
+                if partida.tablero[partida.tramos.arreglo[idT].posicion.fila, partida.tramos.arreglo[idT].posicion.columna + i - 1].multiplicidad > 0 then
                 begin
-                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].escrita := False;    
+                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].editable := True;
+                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila, partida.tramos.arreglo[idT].posicion.columna + i - 1].multiplicidad := partida.tablero[partida.tramos.arreglo[idT].posicion.fila, partida.tramos.arreglo[idT].posicion.columna + i - 1].multiplicidad - 1;
+                    if partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].multiplicidad = 0 then
+                    begin
+                        partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].escrita := False;
+                        partida.tablero[partida.tramos.arreglo[idT].posicion.fila , partida.tramos.arreglo[idT].posicion.columna + i -1].multiplicidad := 0;    
+                    end;
                 end;
             end
             else
             begin
-                partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].editable := True;
-                partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna ].multiplicidad := partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna ].multiplicidad -1;
-                if partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].multiplicidad = 0 then
+                if partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna ].multiplicidad > 0 then
                 begin
-                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].escrita := False;    
+                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].editable := True;
+                    partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna ].multiplicidad := partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna ].multiplicidad -1;
+                    if partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].multiplicidad = 0 then
+                    begin
+                        partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].escrita := False;
+                        partida.tablero[partida.tramos.arreglo[idT].posicion.fila  + i -1, partida.tramos.arreglo[idT].posicion.columna].multiplicidad := 0;    
+                    end;
                 end;
             end;
         partida.tramos.arreglo[idT].ocupado := False;
@@ -122,8 +132,8 @@ var
 x , y , contCasilla: integer;
 begin
     contCasilla := 0;
-    for x := 0 to 9 do 
-        for y := 0 to 9 do
+    for x := 1 to 9 do 
+        for y := 1 to 9 do
             
         if tablero[x , y].escrita = True then
         begin
